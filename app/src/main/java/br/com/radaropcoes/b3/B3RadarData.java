@@ -38,7 +38,7 @@ public final class B3RadarData {
             JSONObject response = build();
             return jsonResponse(200, response.toString());
         } catch (Exception error) {
-            return jsonResponse(503, new JSONObject().put("error", "Não foi possível consultar cotações públicas: " + message(error)).toString());
+            return jsonResponse(503, "{\"error\":" + JSONObject.quote("Não foi possível consultar cotações públicas: " + message(error)) + "}");
         }
     }
 
