@@ -34,6 +34,17 @@ jobs:
               if 'Vencimentos' in label:
                 print('success',obj.get('success'),'data.keys',list(obj.get('data',{}).keys()))
                 print('vencimentos',str(obj.get('data',{}).get('vencimentos',[])[:2])[:1200])
+                print('acoes',str(obj.get('data',{}).get('acoes',[]))[:1800])
+                vcto=obj.get('data',{}).get('vencimentos',[{}])[0].get('value','')
+                if vcto:
+                  chainurl='https://opcoes.net.br/listaopcoes/completa?idAcao=PETR4&listarVencimentos=true&cotacoes=true&vencimentos='+vcto
+                  with urllib.request.urlopen(urllib.request.Request(chainurl,headers=ua),timeout=12) as chres:
+                    chain=json.loads(chres.read(5_000_000))
+                  obj2=chain.get('data',{})
+                  print('CHAIN keys', list(obj2.keys()), 'acoes',str(obj2.get('acoes',[]))[:1200])
+                  print('CHAIN len',len(obj2.get('cotacoesOpcoes') or []))
+                  print('CHAIN row0',str((obj2.get('cotacoesOpcoes') or [])[0:2])[:2800])
+                  print('CHAIN columns',str(obj2.get('columns',[]))[:1500])
               else:
                 result=(obj.get('chart',{}).get('result') or [{}])[0]
                 print('meta',str(result.get('meta',{}))[:500])
