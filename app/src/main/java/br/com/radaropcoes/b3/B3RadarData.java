@@ -64,6 +64,9 @@ public final class B3RadarData {
                 failed.put(new JSONObject().put("ticker", ticker).put("error", message(e)));
             }
         }
+        if (good.length() == 0) {
+            throw new Exception("Nenhum ativo pôde ser consultado; falhas: " + failed.toString().substring(0, Math.min(330, failed.toString().length())));
+        }
         return new JSONObject()
             .put("generatedAt", isoDateTime())
             .put("data", good)
@@ -115,41 +118,53 @@ public final class B3RadarData {
             }
         }
 
+        // A fonte alterou a estrutura das linhas. Resolver pelos NOMES de colunas,
+        // pois os antigos índices confundiam strike, último, negócios e idAcao.
+        JSONArray columns = chainData.optJSONArray("columns");
+        int ixSymbol = columnIndex(columns, "ticker", 0);
+        int ixKind = columnIndex(columns, "tipo", 2);
+        int ixStrike = columnIndex(columns, "strike", 3);
+        int ixLast = columnIndex(columns, "ultimo", 5);
+        int ixDistance = columnIndex(columns, "distancia%dostrike", 4);
+        int ixTrades = columnIndex(columns, "numerodenegocios", 6);
+        int ixLastDate = columnIndex(columns, "data/hora", 7);
+        int ixStyle = columnIndex(columns, "modalidade", -1); // Normalmente não existe.
         JSONArray options = new JSONArray();
         ArrayList<Double> spotCandidates = new ArrayList<>();
         String latestOptionDate = null;
         for (int i = 0; i < rows.length(); i++) {
             JSONArray raw = rows.optJSONArray(i);
-            if (raw == null || raw.length() < 12) continue;
-            double strike = number(raw.opt(5)), last = number(raw.opt(8));
-            double distance = number(raw.opt(6));
-            if (strike > 0 && Double.isFinite(distance) && distance > -0.95 && distance < 100) {
+            if (raw == null || raw.length() < 8) continue;
+            double strike = number(raw.opt(ixStrike));
+            double last = number(raw.opt(ixLast));
+            double distance = number(raw.opt(ixDistance));
+            if (strike > 0 && Double.isFinite(distance) && distance > -0.98 && distance < 50) {
                 double implied = strike / (1.0 + distance);
-                if (implied > 0 && Double.isFinite(implied)) spotCandidates.add(implied);
+                if (implied > 0 && implied < 100000 && Double.isFinite(implied)) spotCandidates.add(implied);
             }
             if (!(strike > 0 && last > 0)) continue;
-            String rawSymbol = raw.optString(0, "");
+            String rawSymbol = raw.optString(ixSymbol, "");
             JSONObject expiry = expiryOf(rawSymbol, selected);
             if (expiry == null || expiry.optInt("days") <= 1) continue;
-
-            String lastDate = raw.optString(11, "");
-            if (lastDate.length() < 10) lastDate = "";
-            else lastDate = lastDate.substring(0, 10);
+            String lastDate = raw.optString(ixLastDate, "");
+            lastDate = lastDate.length() >= 10 ? lastDate.substring(0, 10) : "";
             if (lastDate.matches("\\d{4}-\\d\\d-\\d\\d") &&
                 (latestOptionDate == null || lastDate.compareTo(latestOptionDate) > 0)) {
                 latestOptionDate = lastDate;
             }
             String symbol = rawSymbol.split("_")[0];
+            String style = ixStyle >= 0 ? raw.optString(ixStyle, "?") : "?";
+            if (!"A".equals(style) && !"E".equals(style)) style = "?";
             JSONObject opt = new JSONObject()
                 .put("symbol", symbol)
-                .put("kind", "PUT".equalsIgnoreCase(raw.optString(2)) ? "PUT" : "CALL")
-                .put("style", "E".equalsIgnoreCase(raw.optString(3)) ? "E" : "A")
+                .put("kind", "PUT".equalsIgnoreCase(raw.optString(ixKind)) ? "PUT" : "CALL")
+                .put("style", style)
                 .put("strike", strike)
                 .put("last", last)
-                .put("bid", JSONObject.NULL) // The provider's bid/ask columns are not verified.
+                .put("bid", JSONObject.NULL)
                 .put("ask", JSONObject.NULL)
-                .put("trades", numberAsInt(raw.opt(9)))
-                .put("volume", number(raw.opt(10)))
+                .put("trades", numberAsInt(raw.opt(ixTrades)))
+                .put("volume", 0) // Fonte atual não fornece volume no layout consultado.
                 .put("lastDate", lastDate)
                 .put("expiry", expiry.optString("date"))
                 .put("days", expiry.optInt("days"))
@@ -178,13 +193,21 @@ public final class B3RadarData {
         } catch (Exception e) {
             warnings.put("A cotação da ação via Yahoo Finance está indisponível; valores estimados da grade não validam estratégias.");
         }
-        if (spot <= 0 && impliedSpot > 0) spot = impliedSpot;
+        // Yahoo pode responder 429; a própria grade permite inferir a cotação
+        // aproximada a partir de strike e distância. Não é uma cotação executável.
+        if ((spot <= 0 || spotDate == null) && impliedSpot > 0 && latestOptionDate != null) {
+            spot = impliedSpot;
+            spotDate = latestOptionDate;
+            spotSource = "Estimativa calculada da grade de opções (não é cotação confirmada)";
+            warnings.put("Preço do ativo inferido da distância dos strikes na grade. Data atribuída ao último negócio de opção; NÃO é confirmação de cotação da ação nem de horário sincronizado.");
+        }
         if (spot <= 0) throw new Exception("Sem cotação da ação e sem estimativa da grade");
         if (spotDate == null) {
-            warnings.put("Sem data verificável da cotação da ação: combinações automáticas desativadas por segurança.");
+            warnings.put("Sem data verificável da ação: estratégias automáticas indisponíveis.");
         } else if (latestOptionDate != null && !spotDate.equals(latestOptionDate)) {
             warnings.put("Datas da ação e das opções são diferentes; o motor exclui séries não sincronizadas.");
         }
+        warnings.put("Estilo de exercício, BID/ASK, quantidade do contrato e custos precisam de confirmação na corretora antes de operar.");
 
         int matching = 0;
         for (int i=0;i<options.length();i++) {
@@ -201,6 +224,17 @@ public final class B3RadarData {
             .put("synchronizedCount",matching)
             .put("warnings",warnings)
             .put("options",options);
+    }
+
+    private static int columnIndex(JSONArray columns, String name, int fallback) {
+        if (columns == null) return fallback;
+        for (int i = 0; i < columns.length(); i++) {
+            JSONObject col = columns.optJSONObject(i);
+            if (col != null && name.equalsIgnoreCase(col.optString("name", ""))) {
+                return col.optInt("index", i);
+            }
+        }
+        return fallback;
     }
 
     private static JSONObject expiryOf(String code, JSONArray selected) {
