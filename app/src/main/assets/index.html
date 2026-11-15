@@ -106,7 +106,7 @@ export function buildStrategies(data,{capital=5000,maxLoss=5000,lotSize=100,stoc
  const out=[],haveStock=stockQty>=lotSize&&avgPrice>0;
  function add(kind,os,expiry){
   const first=os[0]?.o;if(!first)return;
-  if(os.some(({o})=>o.expiry!==expiry||!['A','E'].includes(o.style))||!sameStyle(...os.map(x=>x.o)))return;
+  if(os.some(({o})=>o.expiry!==expiry||!['A','E','?'].includes(o.style))||!sameStyle(...os.map(x=>x.o)))return;
   // Do not combine legs with different disclosed contract sizes.
   if(os.some(({o})=>o.contractSize!=null&&o.contractSize!==lotSize))return;
   const qty=lotSize;
@@ -189,7 +189,7 @@ async function loadRadar(){
  try{
   const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),120000);
   const res=await fetch('/api/radar',{cache:'no-store',signal:ctrl.signal});clearTimeout(t);
-  const data=await res.json();if(!res.ok)throw Error(data.error||`Erro HTTP ${res.status}`);
+  const data=await res.json();if(!res.ok)throw Error(data.error||`Erro HTTP ${res.status}`);if(!Array.isArray(data.data)||data.data.length===0)throw Error('Nenhuma cotação válida retornada; verifique as fontes e as falhas da API.');
   state.data=data.data||[];state.failed=data.failed||[];state.selected=null;state.compare.clear();
   $('status').innerHTML=`Consulta em ${esc(new Date(data.generatedAt).toLocaleString('pt-BR'))} · ${state.data.length} ativos com dados · ${state.failed.length} falhas. <b>Não são ofertas executáveis.</b>`;
   const asset=$('asset');const old=asset.value;
