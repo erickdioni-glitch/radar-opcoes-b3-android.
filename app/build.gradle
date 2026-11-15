@@ -7,11 +7,11 @@ android {
     compileSdk 35
 
     defaultConfig {
-        applicationId 'br.com.radaropcoes.b3online'
+        applicationId 'br.com.radaropcoes.b3pro'
         minSdk 24
         targetSdk 34
-        versionCode 3
-        versionName '2.1.0-online'
+        versionCode 4
+        versionName '3.0.0-pro'
     }
 
     compileOptions {
