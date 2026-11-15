@@ -1,0 +1,273 @@
+<!doctype html><html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#080d14"><meta name="description" content="Radar de Opções B3 Pro: cotações públicas e simulação de operações estruturadas." />
+
+<title>Radar de Opções B3 Pro — Estratégias Estruturadas</title><style>:root{color-scheme:dark;--bg:#080d14;--card:#111922;--card2:#0d151f;--border:#26313c;--fg:#f2f5f9;--muted:#929daa;--green:#11db89;--red:#f16c72;--amber:#fbbf65;--blue:#82acfc}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,Arial;color:var(--fg);background:radial-gradient(ellipse at 20% 0,#152636 0,#080d14 45%);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}b,strong{font-weight:700}a{color:var(--blue)}.topbar{position:sticky;top:0;z-index:20;background:#080d14ed;backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px max(16px,calc((100% - 1100px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;gap:9px;align-items:center}.brand strong{font-size:17px;letter-spacing:.04em}.brand em{font-style:normal;color:var(--green)}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.18em}.brandicon{display:grid;place-items:center;border-radius:10px;background:var(--green);color:#08251a;font-weight:900;width:36px;height:36px;font-size:24px}.topmeta{font-size:10px;letter-spacing:.1em;color:var(--amber)}.wrap{max-width:1130px;margin:auto;padding:22px 18px 50px}.hero{padding:15px 0 16px}.kicker,.sectiontitle small{color:var(--green);font-size:10px;letter-spacing:.16em;font-weight:800}.hero h1{font-size:clamp(27px,5vw,45px);line-height:1.11;letter-spacing:-.035em;margin:11px 0}.hero h1 span{color:var(--green)}.hero p{max-width:670px;color:var(--muted);margin:12px 0 10px;font-size:14px}.notice{display:flex;gap:10px;align-items:flex-start;background:#2b231b;border:1px solid #665235;border-radius:12px;padding:12px 13px;font-size:12px;color:#f5d8aa}.dot{width:9px;height:9px;flex-shrink:0;border-radius:50%;margin-top:5px}.amber{background:var(--amber)}.tabs{display:flex;gap:6px;padding:5px;background:#111a25;border-radius:13px;border:1px solid var(--border);margin:20px 0 25px;overflow:auto}.tabs button{flex:1;white-space:nowrap;color:var(--muted);background:none;border:0;padding:11px 8px;border-radius:9px;font-size:13px;font-weight:700}.tabs .active{background:#244b40;color:var(--green)}.hidden{display:none!important}.sectiontitle{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.sectiontitle h2{font-size:22px;margin:2px 0 0;letter-spacing:-.02em}.status{color:var(--muted);font-size:12px;margin:10px 0}.btn{border-radius:9px;padding:10px 14px;border:1px solid var(--border);font-weight:750;font-size:12px}.btn.outline{background:#15202a;color:var(--fg)}.btn.primary{background:var(--green);color:#05291c;border-color:var(--green)}.btn:disabled{opacity:.5;cursor:not-allowed}.badge{background:#163c30;border:1px solid #265847;color:var(--green);border-radius:30px;padding:5px 10px;font-size:11px;font-weight:700}.ticker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.ticker{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:13px;min-width:0}.ticker button{color:var(--fg);background:none;border:0;padding:0;text-align:left}.ticker b{display:block;font-size:14px}.ticker strong{font-size:20px;white-space:nowrap}.ticker small,.ticker span{display:block;color:var(--muted);font-size:11px}.ticker .bad{color:var(--amber)}.results{margin-top:24px}.card,.strategy,.detail,.compare{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px}.sectionlabel{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.12em}.empty{border:1px dashed var(--border);border-radius:11px;padding:24px;text-align:center;color:var(--muted);font-size:13px;margin:12px 0}.filters{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;background:#0e1620;padding:15px;border:1px solid var(--border);border-radius:13px}.filters label,.manual-grid label{font-size:11px;color:var(--muted);display:block;min-width:0}input,select{width:100%;background:#0b121a;border:1px solid #344352;color:var(--fg);border-radius:7px;padding:11px 10px;min-width:0;outline:none;margin-top:5px;font-size:14px}input:focus,select:focus{border-color:var(--green)}.fine{font-size:11px;color:var(--muted);margin:12px 0 18px}.strategy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.strategy{display:flex;flex-direction:column;gap:10px}.strategy header{display:flex;justify-content:space-between;align-items:start;gap:10px}.strategy .name{font-weight:750;font-size:15px}.strategy .tickername{font-size:10px;color:var(--muted)}.score{border:1px solid #2c5547;background:#0c3326;color:var(--green);border-radius:8px;padding:4px 8px;font-weight:700;font-size:12px;white-space:nowrap}.legs{display:grid;gap:5px}.leg{color:var(--fg);font-size:12px;background:var(--card2);border:1px solid #24303e;border-radius:6px;padding:7px 9px}.leg .buy{color:var(--green)}.leg .sell{color:var(--amber)}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;border-top:1px solid var(--border);padding-top:11px}.metric small{display:block;font-size:9px;color:var(--muted);text-transform:uppercase}.metric strong{font-size:14px}.loss{color:var(--red)}.profit{color:var(--green)}.actions{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:6px}.actions .btn{flex:1}.actions label{color:var(--muted);font-size:11px;display:flex;align-items:center;gap:6px}.actions input{width:16px;margin:0}.detail{margin:16px 0}.detail h3{margin:0;font-size:19px}.detail .scenario-table,.compare table{width:100%;border-collapse:collapse;font-size:12px}.scenario-table th,.scenario-table td,.compare th,.compare td{padding:8px 4px;border-bottom:1px solid var(--border);text-align:right}.scenario-table th:first-child,.scenario-table td:first-child,.compare th:first-child,.compare td:first-child{text-align:left}.chart{width:100%;height:auto;margin:10px 0;border:1px solid var(--border);border-radius:10px;background:#0b121a}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.compare{margin:15px 0;overflow:auto}.h3{font-size:15px;margin:17px 0 8px}.manual-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.manual-leg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;align-items:end;margin:8px 0;background:#121e29;padding:12px;border-radius:10px}.manual-leg label{font-size:10px;color:var(--muted)}.manual-leg button{width:100%}.row-actions{display:flex;gap:9px;margin:12px 0}.row-actions button{flex:1}.warn{color:var(--amber);font-size:12px}.good{color:var(--green)}.danger{color:var(--red)}.details-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.details-grid .metric{border:1px solid var(--border);padding:11px;border-radius:8px}footer{font-size:11px;color:var(--muted);border-top:1px solid var(--border);margin-top:42px;padding-top:20px;line-height:1.8}@media(max-width:760px){.ticker-grid{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:repeat(2,minmax(0,1fr))}.strategy-grid,.grid2{grid-template-columns:1fr}.manual-leg{grid-template-columns:repeat(2,1fr)}.topmeta{font-size:8px}}@media(max-width:390px){.wrap{padding-left:12px;padding-right:12px}.topbar{padding:10px 12px}.hero h1{font-size:26px}.sectiontitle h2{font-size:19px}.filters{gap:8px;padding:10px}.ticker strong{font-size:18px}.metrics{gap:5px}.metric strong{font-size:12px}.tabs button{font-size:11px}.topmeta{display:none}}
+</style></head>
+<body>
+<header class="topbar"><div class="brand"><span class="brandicon">↗</span><div><strong>RADAR <em>PRO</em></strong><small>OPÇÕES B3 • ESTRUTURADAS</small></div></div><span class="topmeta">DADOS INDICATIVOS · EOD</span></header>
+<main class="wrap">
+<section class="hero"><div class="kicker">ANÁLISE DE DERIVATIVOS</div><h1>Encontre oportunidades.<br><span>Entenda o risco antes de operar.</span></h1><p>Varredura online de opções da B3 e simulação de travas, proteção de carteira, renda e estruturas com risco limitado. Não envia ordens.</p></section>
+<div class="notice" role="status"><span class="dot amber"></span><span>Os preços da internet são de <b>último negócio/fechamento</b>, não são BID/ASK e podem estar defasados. A montagem é <b>indicativa</b>; confirme ofertas, lote e margem na corretora.</span></div>
+<nav class="tabs" aria-label="Seções"><button id="tab-radar" data-tab="radar" class="active">◉ Radar</button><button id="tab-strats" data-tab="strats">▤ Estruturas</button><button id="tab-manual" data-tab="manual">⚙ Montador manual</button></nav>
+<section id="view-radar" class="view"><div class="sectiontitle"><div><small>01 / FONTES ONLINE</small><h2>Varredura de mercado</h2></div><button id="refresh" class="btn outline">↻ Atualizar cotações</button></div><div id="status" class="status">Aguardando consulta…</div><div id="ticker-grid" class="ticker-grid"></div><div id="radar-results" class="results"></div></section>
+<section id="view-strats" class="view hidden"><div class="sectiontitle"><div><small>02 / MOTOR DE ESTRATÉGIAS</small><h2>Estruturas selecionadas</h2></div><div class="badge" id="strategy-count">—</div></div>
+<div class="filters">
+<label>Objetivo<select id="goal"><option value="todos">Todos os objetivos</option><option value="protecao">Proteção</option><option value="renda">Geração de renda</option><option value="alta">Aposta na alta</option><option value="baixa">Aposta na baixa</option><option value="lateral">Mercado lateral</option><option value="movimento">Movimento forte</option></select></label>
+<label>Ativo<select id="asset"><option value="todos">Todos os ativos</option></select></label>
+<label>Capital máximo (R$)<input type="number" min="1" step="100" id="capital" value="5000"></label>
+<label>Perda máxima tolerada (R$)<input type="number" min="0" step="100" id="risk" value="1000"></label>
+<label>Ações em carteira<input id="stock-qty" type="number" min="0" step="100" value="0"></label>
+<label>Preço médio por ação (R$)<input id="avg" type="number" min="0" step="0.01" value="0"></label>
+<label>Lote assumido / contrato<input id="lotsize" type="number" min="1" step="1" value="100"></label>
+<label>Custo por ordem (R$)<input id="fee-order" type="number" min="0" step="0.01" value="0"></label>
+<label>Taxa sobre prêmio (%)<input id="fee-pct" type="number" min="0" step="0.01" value="0"></label>
+</div><div class="fine">O lote de 100 é apenas uma premissa editável: a fonte gratuita não confirma o multiplicador de cada contrato. Informe ações em carteira e preço médio para gerar PUT protetora, venda coberta e collar.</div>
+<div id="strategy-list" class="strategy-grid"></div><div id="compare" class="compare hidden"></div><div id="details"></div>
+</section>
+<section id="view-manual" class="view hidden"><div class="sectiontitle"><div><small>03 / SIMULADOR</small><h2>Monte sua própria estrutura</h2></div><span class="badge">Dados inseridos por você</span></div><p class="fine">Digite as pernas e os preços que você observar na corretora. Não é possível confirmar execução ou garantia a partir destes campos.</p>
+<div class="manual-grid"><label>Preço do ativo (R$)<input id="manual-spot" type="number" min="0" step="0.01" placeholder="Ex.: 40,00"></label><label>Corretagem por ordem (R$)<input id="manual-fee" type="number" min="0" step="0.01" value="0"></label></div>
+<div id="manual-legs"></div><div class="row-actions"><button id="add-leg" class="btn outline">+ Adicionar perna</button><button id="manual-run" class="btn primary">Calcular resultado</button></div><div id="manual-output"></div></section>
+<footer><b>Sobre os dados:</b> preços das opções consultados em <a href="https://opcoes.net.br/" target="_blank" rel="noopener noreferrer">Opções.net.br</a>; preço e histórico do ativo consultados no Yahoo Finance. Referência alternativa: <a href="https://brapi.dev/docs/opcoes" target="_blank" rel="noopener noreferrer">BRAPI EOD</a> (cobertura de opções ampliada exige plano). Este projeto é educativo: não fornece recomendação personalizada, não garante probabilidade de lucro, não verifica ofertas ou margens e não envia ordens. Exercício antecipado de opções americanas, mudanças no prêmio, impostos, ajustes e custos de liquidação podem alterar os resultados.</footer>
+</main><script type="module">/* Motor de payoff de opções estruturadas. Portado e ajustado a partir do projeto Radar B3.
+   A simulação usa P&L no vencimento e NÃO prevê lucro futuro. */
+export const KIND_INFO = {
+ 'bull-call': {name:'Trava de alta com CALL',obj:'alta',desc:'Compra CALL de strike menor e vende outra mais alta. Ganho e perda limitados.'},
+ 'bear-put': {name:'Trava de baixa com PUT',obj:'baixa',desc:'Compra PUT de strike maior e vende PUT de strike menor. Ganho e perda limitados.'},
+ 'bull-put': {name:'Trava de crédito com PUT',obj:'alta',desc:'Vende PUT de strike maior e compra PUT de strike menor. Recebe prêmio e limita o risco.'},
+ 'bear-call': {name:'Trava de crédito com CALL',obj:'baixa',desc:'Vende CALL de strike menor e compra CALL de strike maior. Recebe prêmio e limita o risco.'},
+ 'protective-put': {name:'PUT protetora',obj:'protecao',desc:'Mantém ações da carteira e compra PUT contra quedas. A alta permanece, descontado o seguro.'},
+ 'collar': {name:'Collar de proteção',obj:'protecao',desc:'Mantém ações, compra PUT e vende CALL. Limita queda e também limita alta.'},
+ 'covered-call': {name:'Venda coberta de CALL',obj:'renda',desc:'Vende CALL tendo ações suficientes em carteira. Prêmio amortiza parte da queda; limita a alta.'},
+ 'straddle': {name:'Straddle comprado',obj:'movimento',desc:'Compra CALL e PUT de mesmo strike. Precisa de movimento forte em qualquer direção.'},
+ 'condor': {name:'Iron condor com travas',obj:'lateral',desc:'Duas travas de crédito, CALL e PUT, com risco limitado nos dois lados.'},
+};
+export const rr = n => Math.round((n+Number.EPSILON)*100)/100;
+export const brl = n => Number.isFinite(n)?n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}):(n>0?'Ilimitado':'Ilimitada');
+export const pct = n => Number.isFinite(n)?(n*100).toFixed(1).replace('.',',')+'%':'—';
+export function legPnl(l,s){
+  let payoff=l.type==='ACAO'?s:(l.type==='CALL'?Math.max(0,s-l.strike):Math.max(0,l.strike-s));
+  return (l.side==='COMPRA'?1:-1)*l.qty*(payoff-l.price);
+}
+export function setupCosts(legs,perOrder=0,feePct=0){return legs.filter(l=>!l.held).reduce((a,l)=>a+perOrder+Math.abs(l.qty*l.price)*feePct,0);}
+export function exerciseCosts(legs,s,perOrder=0,feePct=0){
+  return legs.filter(l=>l.type!=='ACAO'&&(l.type==='CALL'?s>l.strike:s<l.strike))
+   .reduce((a,l)=>a+perOrder+l.strike*l.qty*feePct,0);
+}
+export function pnl(legs,s,fees={}){return rr(legs.reduce((a,l)=>a+legPnl(l,s),0)-setupCosts(legs,fees.perOrder||0,fees.feePct||0));}
+export function analyze(legs,fees={}){
+ if(!legs.length||legs.some(l=>!Number.isFinite(l.price)||!Number.isFinite(l.qty)||l.qty<=0||l.price<0||((l.type==='CALL'||l.type==='PUT')&&!(l.strike>0))))throw Error('Pernas inválidas');
+ const strikes=[...new Set(legs.filter(l=>l.type!=='ACAO').map(l=>l.strike))].sort((a,b)=>a-b);
+ const xs=[0,...strikes.filter(s=>s>0)];
+ const ys=xs.map(x=>pnl(legs,x,fees));
+ const slope=legs.reduce((a,l)=>a+(l.type==='CALL'||l.type==='ACAO'?(l.side==='COMPRA'?l.qty:-l.qty):0),0);
+ const maxProfit=slope>0?Infinity:Math.max(...ys);
+ const minProfit=slope<0?-Infinity:Math.min(...ys);
+ const breakevens=[];
+ const put=x=>{if(x>=0&&Number.isFinite(x)&&!breakevens.some(y=>Math.abs(x-y)<0.001))breakevens.push(rr(x));};
+ for(let i=0;i<xs.length-1;i++){
+   if(Math.abs(ys[i])<0.00001)put(xs[i]);
+   if(ys[i]*ys[i+1]<0)put(xs[i]+(xs[i+1]-xs[i])*(-ys[i])/(ys[i+1]-ys[i]));
+ }
+ const last=xs.length-1;
+ if(Math.abs(ys[last])<0.00001)put(xs[last]);
+ if(slope!==0&&ys[last]*slope<0)put(xs[last]-ys[last]/slope);
+ breakevens.sort((a,b)=>a-b);
+ const cashFlow=rr(legs.filter(l=>!l.held).reduce((a,l)=>a+(l.side==='COMPRA'?-1:1)*l.price*l.qty,0));
+ const optionsFlow=rr(legs.filter(l=>l.type!=='ACAO').reduce((a,l)=>a+(l.side==='COMPRA'?-1:1)*l.price*l.qty,0));
+ const stockCapital=legs.filter(l=>l.type==='ACAO'&&l.side==='COMPRA').reduce((a,l)=>a+l.qty*l.price,0);
+ const maxLoss=minProfit===-Infinity?Infinity:Math.max(0,-minProfit);
+ const feesCost=setupCosts(legs,fees.perOrder||0,fees.feePct||0);
+ // Conservative capital proxy, NOT verified broker margin.
+ const capital=rr(stockCapital?stockCapital+Math.max(0,-optionsFlow)+feesCost:Math.max(maxLoss,Math.max(0,-cashFlow)+feesCost));
+ return {maxProfit,maxLoss,breakevens,capital,optionsFlow,cashFlow,feesCost,returnOnRisk:Number.isFinite(maxProfit)&&maxLoss>0?maxProfit/maxLoss:null,strikes,slope};
+}
+export function curve(legs,spot,fees={}){
+ const strikes=legs.filter(l=>l.strike).map(l=>l.strike);
+ const lower=Math.max(0,Math.min(spot*0.60,...strikes.map(k=>k*0.87)));
+ const upper=Math.max(spot*1.4,...strikes.map(k=>k*1.13));
+ const x=new Set([...Array.from({length:101},(_,i)=>lower+(upper-lower)*i/100),...strikes]);
+ return [...x].filter(v=>v>=lower&&v<=upper).sort((a,b)=>a-b).map(s=>({s,p:pnl(legs,s,fees)}));
+}
+export function scenarios(legs,spot,fees={}){
+ return [-.2,-.1,-.05,0,.05,.1,.2].map(move=>{
+  const s=rr(spot*(1+move));
+  return {move,s,gross:rr(legs.reduce((a,l)=>a+legPnl(l,s),0)),fees:rr(setupCosts(legs,fees.perOrder||0,fees.feePct||0)),exercise:rr(exerciseCosts(legs,s,fees.perOrder||0,fees.feePct||0)),net:pnl(legs,s,fees)};
+ });
+}
+const MIN_TRADES=5;
+const sortStrike = (a,b)=>a.strike-b.strike;
+const sameStyle=(...os)=>os.every(o=>o.style===os[0].style);
+export function buildStrategies(data,{capital=5000,maxLoss=5000,lotSize=100,stockQty=0,avgPrice=0,fees={},objective='todos'}={}){
+ if(!(lotSize>0))return [];
+ const S=data.spot; if(!(S>0))return [];
+ const opts=(data.options||[]).filter(o=>o.last>0&&o.strike>0&&o.trades>=MIN_TRADES&&o.expiry&&o.lastDate&&o.lastDate===data.spotDate&&o.days>1);
+ const groups=Object.groupBy?Object.groupBy(opts,o=>o.expiry):opts.reduce((g,o)=>((g[o.expiry]??=[]).push(o),g),{});
+ const out=[],haveStock=stockQty>=lotSize&&avgPrice>0;
+ function add(kind,os,expiry){
+  const first=os[0]?.o;if(!first)return;
+  if(os.some(({o})=>o.expiry!==expiry||!['A','E'].includes(o.style))||!sameStyle(...os.map(x=>x.o)))return;
+  // Do not combine legs with different disclosed contract sizes.
+  if(os.some(({o})=>o.contractSize!=null&&o.contractSize!==lotSize))return;
+  const qty=lotSize;
+  const legs=os.map(({o,side})=>({type:o.kind,side,strike:o.strike,
+   price:side==='COMPRA'&&o.ask>0?o.ask:side==='VENDA'&&o.bid>0?o.bid:o.last,
+   priceBasis:side==='COMPRA'&&o.ask>0?'ASK EOD':side==='VENDA'&&o.bid>0?'BID EOD':'último negócio',
+   qty,symbol:o.symbol,expiry,style:o.style,held:false,trades:o.trades}));
+  if(['protective-put','collar','covered-call'].includes(kind)){
+   if(!haveStock)return;
+   legs.unshift({type:'ACAO',side:'COMPRA',strike:null,price:avgPrice,qty,held:true,symbol:data.ticker});
+  }
+  const info=KIND_INFO[kind];let sum;try{sum=analyze(legs,fees);}catch{return;}
+  // An EOD book can differ from the LAST price; recompute premium feasibility with the actual side prices.
+  const width=os.length===2?Math.abs(os[1].o.strike-os[0].o.strike):0;
+  if(['bull-call','bear-put'].includes(kind)&&!(sum.optionsFlow<0&&-sum.optionsFlow/qty<width))return;
+  if(['bull-put','bear-call'].includes(kind)&&!(sum.optionsFlow>0&&sum.optionsFlow/qty<width))return;
+  if(kind==='condor'&&!(sum.optionsFlow>0))return;
+  if(sum.maxProfit<=0||sum.maxLoss<=0||!Number.isFinite(sum.maxLoss)||sum.maxLoss>maxLoss||sum.capital>capital)return;
+  if(objective!=='todos'&&info.obj!==objective && !(objective==='renda'&&['bull-put','bear-call','condor'].includes(kind)))return;
+  const minTrades=Math.min(...os.map(x=>x.o.trades));
+  const riskReturn=Number.isFinite(sum.maxProfit)?sum.maxProfit/Math.max(1,sum.maxLoss):2;
+  const ratio=Math.min(2,Math.max(0,riskReturn));
+  const score=Math.round(100*(.40*Math.min(1,Math.log10(minTrades+1)/2)+.30*ratio/2+.20*(1-Math.min(1,sum.maxLoss/Math.max(1,capital)))+.1*(1-Math.min(1,os.length/5))));
+  out.push({id:kind+'|'+expiry+'|'+os.map(x=>x.o.symbol).join('|'),kind,name:info.name,desc:info.desc,objective:info.obj,ticker:data.ticker,expiry,spot:S,spotDate:data.spotDate,legs,summary:sum,score,minTrades,notice:'Cotações indicativas: últimos negócios ou BID/ASK do fechamento (EOD), sem confirmação de preço executável. Lote e margem dependem de validação.',risks:info.obj==='protecao'?'Prêmio de proteção reduz o ganho; exercício antecipado pode ocorrer.':'Variações de volatilidade, exercício antecipado e diferença entre oferta e último preço podem alterar o resultado.'});
+ }
+ for(const [expiry,rows] of Object.entries(groups)){
+  const calls=rows.filter(o=>o.kind==='CALL').sort(sortStrike);
+  const puts=rows.filter(o=>o.kind==='PUT').sort(sortStrike);
+  // Reduce combinations to strikes near the underlying without inventing any contracts.
+  function vertical(ary,lowSide,highSide,kind){
+   const close=ary.filter(o=>Math.abs(o.strike/S-1)<.14).slice(0,22);
+   for(let i=0;i<close.length;i++)for(let j=i+1;j<close.length;j++){
+    const low=close[i],high=close[j],width=high.strike-low.strike;
+    if(!(width>0&&width<=S*.12)||!sameStyle(low,high))continue;
+    const os=[{o:low,side:lowSide},{o:high,side:highSide}];
+    const cash=(lowSide==='COMPRA'?-low.last:low.last)+(highSide==='COMPRA'?-high.last:high.last);
+    if(kind==='bull-call'||kind==='bear-put'){if(!(cash<0&&-cash<width))continue;}
+    else if(!(cash>0&&cash<width))continue;
+    add(kind,os,expiry);
+   }
+  }
+  vertical(calls,'COMPRA','VENDA','bull-call');
+  vertical(puts,'VENDA','COMPRA','bear-put');
+  vertical(puts,'COMPRA','VENDA','bull-put');
+  vertical(calls,'VENDA','COMPRA','bear-call');
+  if(haveStock){
+   const ps=puts.filter(o=>o.strike>=S*.85&&o.strike<=S*1.04).sort((a,b)=>Math.abs(a.strike-S*.95)-Math.abs(b.strike-S*.95)).slice(0,4);
+   const cs=calls.filter(o=>o.strike>=S).sort((a,b)=>a.strike-b.strike).slice(0,4);
+   for(const p of ps)add('protective-put',[{o:p,side:'COMPRA'}],expiry);
+   for(const c of cs)add('covered-call',[{o:c,side:'VENDA'}],expiry);
+   for(const p of ps)for(const c of cs){if(sameStyle(p,c))add('collar',[{o:p,side:'COMPRA'},{o:c,side:'VENDA'}],expiry);}
+  }
+  for(const c of calls.filter(o=>Math.abs(o.strike/S-1)<=.04).slice(0,4)){
+   const p=puts.find(o=>o.strike===c.strike&&sameStyle(o,c));if(p)add('straddle',[{o:c,side:'COMPRA'},{o:p,side:'COMPRA'}],expiry);
+  }
+  const putShort=puts.filter(p=>p.strike<S&&p.strike>S*.85).slice(-4),callShort=calls.filter(c=>c.strike>S&&c.strike<S*1.15).slice(0,4);
+  for(const sp of putShort)for(const sc of callShort){
+   const lp=puts.filter(p=>p.strike<sp.strike&&sp.strike-p.strike<S*.1&&sameStyle(p,sp)).slice(-1)[0];
+   const lc=calls.filter(c=>c.strike>sc.strike&&c.strike-sc.strike<S*.1&&sameStyle(c,sc)).slice(0,1)[0];
+   if(lp&&lc&&sameStyle(lp,sp,sc,lc)){
+    const credit=sp.last+sc.last-lp.last-lc.last;
+    if(credit>0&&credit<Math.max(sp.strike-lp.strike,lc.strike-sc.strike))add('condor',[{o:lp,side:'COMPRA'},{o:sp,side:'VENDA'},{o:sc,side:'VENDA'},{o:lc,side:'COMPRA'}],expiry);
+   }
+  }
+ }
+ const dedup=[...new Map(out.map(x=>[x.id,x])).values()];
+ return dedup.sort((a,b)=>b.score-a.score||a.summary.maxLoss-b.summary.maxLoss).slice(0,80);
+}
+
+
+const $=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const date=d=>d?String(d).slice(0,10).split('-').reverse().join('/'):'Não informada';
+const state={tab:'radar',data:[],failed:[],selected:null,compare:new Set(),manual:[{type:'CALL',side:'COMPRA',strike:'',price:'',qty:100}],selectedTicker:'todos',loading:false,overrides:new Map()};
+const feecfg=()=>({perOrder:Math.max(0,Number($('fee-order').value)||0),feePct:Math.max(0,Number($('fee-pct').value)||0)/100});
+function opts(){return {capital:Math.max(1,Number($('capital').value)||5000),maxLoss:Math.max(0,Number($('risk').value)||1000),lotSize:Math.max(1,Math.floor(Number($('lotsize').value)||100)),stockQty:Math.max(0,Math.floor(Number($('stock-qty').value)||0)),avgPrice:Math.max(0,Number($('avg').value)||0),fees:feecfg(),objective:$('goal').value};}
+function selectTab(tab){state.tab=tab;for(const x of ['radar','strats','manual']){$('view-'+x).classList.toggle('hidden',x!==tab);$('tab-'+x).classList.toggle('active',x===tab);}if(tab==='strats')renderStrategies();if(tab==='manual')renderManual();}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>selectTab(b.dataset.tab)));
+async function loadRadar(){
+ state.loading=true;$('refresh').disabled=true;$('status').textContent='Buscando cotações na internet… As fontes gratuitas podem demorar ou bloquear consultas.';
+ try{
+  const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),120000);
+  const res=await fetch('/api/radar',{cache:'no-store',signal:ctrl.signal});clearTimeout(t);
+  const data=await res.json();if(!res.ok)throw Error(data.error||`Erro HTTP ${res.status}`);
+  state.data=data.data||[];state.failed=data.failed||[];state.selected=null;state.compare.clear();
+  $('status').innerHTML=`Consulta em ${esc(new Date(data.generatedAt).toLocaleString('pt-BR'))} · ${state.data.length} ativos com dados · ${state.failed.length} falhas. <b>Não são ofertas executáveis.</b>`;
+  const asset=$('asset');const old=asset.value;
+  asset.innerHTML='<option value="todos">Todos os ativos</option>'+state.data.map(r=>`<option value="${esc(r.ticker)}">${esc(r.ticker)}</option>`).join('');
+  asset.value=Array.from(asset.options).some(o=>o.value===old)?old:'todos';
+ }catch(e){$('status').innerHTML=`<span class="danger">Falha na atualização: ${esc(e.message)}.</span> Use o montador manual ou tente novamente.`;}
+ finally{state.loading=false;$('refresh').disabled=false;renderRadar();if(state.tab==='strats')renderStrategies();}
+}
+function renderRadar(){
+ $('ticker-grid').innerHTML=state.data.length?state.data.map(d=>`<div class="ticker"><button data-act="select-ticker" data-ticker="${esc(d.ticker)}"><b>${esc(d.ticker)}</b><strong>${brl(d.spot)}</strong><small>Fechamento ${date(d.spotDate)}</small><span>${d.synchronizedCount||0} séries com data comparável</span>${d.warnings.length?'<span class="bad">⚠ Ver avisos</span>':''}</button></div>`).join(''):'<div class="empty" style="grid-column:1/-1">Sem dados carregados. Clique em “Atualizar cotações”. O simulador manual continua disponível.</div>';
+ const d=state.data.find(x=>x.ticker===state.selectedTicker);
+ const report=state.failed.length?`<div class="notice" style="margin-bottom:15px">Falharam: ${state.failed.map(x=>esc(x.ticker)+' ('+esc(x.error)+')').join(' · ')}</div>`:'';
+ $('radar-results').innerHTML=report+(d?`<div class="card"><span class="sectionlabel">ATIVO SELECIONADO</span><h2>${esc(d.ticker)} · ${brl(d.spot)}</h2><p class="fine">Ação: ${date(d.spotDate)} (${esc(d.source)}). Opções: ${date(d.optionDate)} (${esc(d.optionsSource)}). ${d.options.length} séries recebidas.</p>${d.warnings.map(w=>`<p class="warn">⚠ ${esc(w)}</p>`).join('')}<p class="fine">Oportunidades automáticas só usam negócios com a mesma data da ação e pelo menos 5 negócios registrados por série.</p><button class="btn primary" data-act="open-ticker-strats" data-ticker="${esc(d.ticker)}">Comparar estruturas de ${esc(d.ticker)}</button><h3 class="h3">Últimas opções retornadas pela fonte</h3>${renderChain(d.options.slice(0,20))}</div>`:
+ `<p class="fine">Toque em um ativo acima para consultar as opções ou abra “Estruturas” para comparar montagens calculadas a partir das séries recebidas.</p>`);
+}
+function renderChain(options){if(!options.length)return '<div class="empty">Sem séries retornadas.</div>';return `<div style="overflow-x:auto"><table class="scenario-table"><thead><tr><th>Série</th><th>Tipo</th><th>Strike</th><th>Último</th><th>Negócios</th><th>Data</th></tr></thead><tbody>${options.map(o=>`<tr><td>${esc(o.symbol)}</td><td>${o.kind}</td><td>${brl(o.strike)}</td><td>${brl(o.last)}</td><td>${o.trades}</td><td>${date(o.lastDate)}</td></tr>`).join('')}</tbody></table></div>`;}
+function allStrategies(){const q=opts();return state.data.filter(d=>$('asset').value==='todos'||d.ticker===$('asset').value).flatMap(d=>buildStrategies(d,{...q,stockQty:$('asset').value===d.ticker?q.stockQty:0})).sort((a,b)=>b.score-a.score||a.summary.maxLoss-b.summary.maxLoss);}
+function card(st){const m=st.summary,selected=state.compare.has(st.id);
+ return `<article class="strategy"><header><div><div class="tickername">${esc(st.ticker)} · ${date(st.expiry)}</div><div class="name">${esc(st.name)}</div></div><span class="score">Score ${st.score}/100</span></header><div class="legs">${st.legs.map(l=>`<div class="leg"><b class="${l.side==='COMPRA'?'buy':'sell'}">${l.held?'MANTER':l.side}</b> ${l.qty} ${esc(l.type==='ACAO'?'AÇÕES':l.symbol)} ${l.strike?`· Strike ${brl(l.strike)}`:''} ${!l.held?`· ${esc(l.priceBasis||'Prêmio')} ${brl(l.price)}`:''}</div>`).join('')}</div><div class="metrics"><div class="metric"><small>Lucro máximo</small><strong class="profit">${brl(m.maxProfit)}</strong></div><div class="metric"><small>Perda máxima</small><strong class="loss">${brl(m.maxLoss)}</strong></div><div class="metric"><small>Capital estimado</small><strong>${brl(m.capital)}</strong></div><div class="metric"><small>Prêmio líquido</small><strong>${brl(m.optionsFlow)}</strong></div><div class="metric"><small>Equilíbrio</small><strong>${m.breakevens.length?m.breakevens.map(brl).join(' / '):'—'}</strong></div><div class="metric"><small>Negócios mínimos</small><strong>${st.minTrades}</strong></div></div><div class="actions"><button class="btn primary" data-act="details" data-id="${esc(st.id)}">Ver montagem e gráfico</button><label><input type="checkbox" data-act="compare" data-id="${esc(st.id)}" ${selected?'checked':''}> Comparar</label></div></article>`;}
+function renderStrategies(){const all=allStrategies();state.last=all;
+ $('strategy-count').textContent=`${all.length} simuladas`;
+ $('strategy-list').innerHTML=all.length?all.slice(0,30).map(card).join(''):`<div class="empty" style="grid-column:1/-1">Nenhuma estrutura elegível com os filtros e dados atuais. Confira datas, negociações, capital e perda tolerada. <b>Nenhuma cotação fictícia é criada.</b></div>`;
+ const current=all.find(s=>s.id===state.selected);$('details').innerHTML=current?renderDetails(current):'';
+ renderCompare(all);
+}
+function chartSvg(legs,spot,fees){
+ const data=curve(legs,spot,fees),W=800,H=310,ML=64,MR=22,MT=25,MB=44;
+ let min=Math.min(0,...data.map(p=>p.p)),max=Math.max(0,...data.map(p=>p.p));if(min===max){min-=1;max+=1;}const pad=(max-min)*.1;max+=pad;min-=pad;
+ const x=p=>ML+(p-data[0].s)/(data.at(-1).s-data[0].s)*(W-ML-MR),y=p=>MT+(max-p)/(max-min)*(H-MT-MB);
+ const line=data.map((p,i)=>(i?'L':'M')+x(p.s).toFixed(1)+','+y(p.p).toFixed(1)).join(' ');
+ const zero=y(0),xMin=data[0].s,xMax=data.at(-1).s;
+ const tick=[min,0,max].map(p=>`<text x="${ML-6}" y="${y(p)+4}" text-anchor="end" fill="#9da6b3" font-size="13">${Math.round(p)}</text>`).join('');
+ const strikes=[...new Set(legs.map(l=>l.strike).filter(Boolean))].filter(k=>k>=xMin&&k<=xMax).map(k=>`<line x1="${x(k)}" y1="${MT}" x2="${x(k)}" y2="${H-MB}" stroke="#334454" stroke-dasharray="3 5"/><text x="${x(k)}" y="${H-26}" text-anchor="middle" fill="#9da6b3" font-size="11">${k.toFixed(2)}</text>`).join('');
+ return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico de lucro e prejuízo no vencimento. Eixo horizontal: cotação da ação; vertical: resultado em reais"><line x1="${ML}" y1="${zero}" x2="${W-MR}" y2="${zero}" stroke="#6e7885"/>${strikes}${tick}<path d="${line}" fill="none" stroke="#11db89" stroke-width="3" stroke-linecap="round"/><text x="${ML}" y="${H-8}" fill="#9da6b3" font-size="12">Cotação no vencimento (R$)</text><text x="${ML}" y="${MT-10}" fill="#9da6b3" font-size="12">Lucro / prejuízo (R$)</text></svg>`;
+}
+function metricsDetails(m){return `<div class="details-grid"><div class="metric"><small>Lucro máximo no vencimento</small><strong class="profit">${brl(m.maxProfit)}</strong></div><div class="metric"><small>Perda máxima no vencimento</small><strong class="loss">${brl(m.maxLoss)}</strong></div><div class="metric"><small>Prêmio líquido (crédito positivo)</small><strong>${brl(m.optionsFlow)}</strong></div><div class="metric"><small>Capital conservador estimado</small><strong>${brl(m.capital)}</strong></div><div class="metric"><small>Equilíbrio</small><strong>${m.breakevens.map(brl).join(' / ')||'—'}</strong></div><div class="metric"><small>Retorno máximo / risco</small><strong>${m.returnOnRisk==null?'—':pct(m.returnOnRisk)}</strong></div></div>`;}
+function scenariosTable(legs,spot,fees){return `<h4 class="h3">Cenários no vencimento (sem custos de exercício)</h4><div style="overflow-x:auto"><table class="scenario-table"><thead><tr><th>Movimento</th><th>Preço</th><th>Resultado</th><th>Exercício*</th></tr></thead><tbody>${scenarios(legs,spot,fees).map(v=>`<tr><td>${pct(v.move)}</td><td>${brl(v.s)}</td><td class="${v.net>=0?'good':'danger'}">${brl(v.net)}</td><td>${brl(v.exercise)}</td></tr>`).join('')}</tbody></table></div><p class="fine">* Custo estimativo separado: exercício/atribuição é uma operação distinta e sua liquidação depende de regras e tarifas efetivas da corretora. A coluna “Resultado” desconta apenas os custos de montagem.</p>`;}
+function renderDetails(st){const override=state.overrides.get(st.id)||{};
+ const legs=st.legs.map((l,i)=>({...l,price:override[i]===undefined?l.price:override[i]}));
+ let m;try{m=analyze(legs,feecfg());}catch(e){return `<div class="detail"><p class="danger">${esc(e.message)}</p></div>`;}
+ return `<section class="detail" id="result-detail"><div class="sectiontitle"><h3>${esc(st.name)} · ${esc(st.ticker)}</h3><button class="btn outline" data-act="close-detail">Fechar</button></div><p>${esc(st.desc)}</p><div class="notice">⚠ ${esc(st.notice)} Os valores editados abaixo são digitados manualmente e não foram verificados por uma bolsa.</div><h4 class="h3">Pernas e preços por ação/opção</h4><div class="legs">${legs.map((l,i)=>`<div class="leg">${esc(l.held?'AÇÃO EM CARTEIRA':l.side+' '+l.type)} ${esc(l.symbol||'')} ${l.strike?'· K '+brl(l.strike):''} · ${l.qty} unidades <label style="display:block;color:var(--muted);margin-top:4px">${l.held?'Preço médio':'Preço indicativo ('+esc(l.priceBasis||'último negócio')+'; substitua por cotação atual da corretora)'}<input data-act="price-override" data-id="${esc(st.id)}" data-index="${i}" type="number" min="0" step="0.01" value="${l.price.toFixed(2)}" ${l.held?'disabled':''}></label></div>`).join('')}</div><div style="margin-top:16px">${metricsDetails(m)}</div>${chartSvg(legs,st.spot,feecfg())}${scenariosTable(legs,st.spot,feecfg())}<p class="warn">⚠ ${esc(st.risks)} Margem e garantias podem diferir, e o exercício antecipado pode causar posições temporariamente descobertas.</p></section>`;
+}
+function renderCompare(all){const comp=all.filter(x=>state.compare.has(x.id)).slice(0,3);const view=$('compare');view.classList.toggle('hidden',!comp.length);if(!comp.length)return;
+ view.innerHTML=`<h3>Comparar estratégias (${comp.length}/3)</h3><table><thead><tr><th>Métrica</th>${comp.map(x=>`<th>${esc(x.ticker)}<br>${esc(x.name)}</th>`).join('')}</tr></thead><tbody>${[['Lucro máximo',x=>brl(x.summary.maxProfit)],['Perda máxima',x=>brl(x.summary.maxLoss)],['Capital estimado',x=>brl(x.summary.capital)],['Prêmio líquido',x=>brl(x.summary.optionsFlow)],['Score relativo',x=>x.score+'/100'],['Vencimento',x=>date(x.expiry)]].map(([lbl,fn])=>`<tr><td>${lbl}</td>${comp.map(x=>`<td>${esc(fn(x))}</td>`).join('')}</tr>`).join('')}</tbody></table><p class="fine">Comparação apenas entre simulações indicativas. Score não prevê retorno, não mede chance real de execução e não é conselho de investimento.</p>`;
+}
+function renderManual(){const container=$('manual-legs');container.innerHTML=state.manual.map((l,i)=>`<div class="manual-leg"><label>Tipo<select data-manual="type" data-index="${i}"><option value="CALL" ${l.type==='CALL'?'selected':''}>CALL</option><option value="PUT" ${l.type==='PUT'?'selected':''}>PUT</option><option value="ACAO" ${l.type==='ACAO'?'selected':''}>AÇÃO</option></select></label><label>Lado<select data-manual="side" data-index="${i}"><option value="COMPRA" ${l.side==='COMPRA'?'selected':''}>Comprar</option><option value="VENDA" ${l.side==='VENDA'?'selected':''}>Vender</option></select></label><label>Strike (R$)<input type="number" min="0" step="0.01" data-manual="strike" data-index="${i}" value="${esc(l.strike)}" ${l.type==='ACAO'?'disabled':''} placeholder="0,00"></label><label>Prêmio / custo (R$)<input type="number" min="0" step="0.01" data-manual="price" data-index="${i}" value="${esc(l.price)}"></label><label>Quantidade<input type="number" min="1" step="1" data-manual="qty" data-index="${i}" value="${esc(l.qty)}"></label><button class="btn outline" data-act="remove-leg" data-index="${i}">Remover</button></div>`).join('');}
+function runManual(){const spot=Number($('manual-spot').value),fee=Number($('manual-fee').value)||0;
+ const legs=state.manual.map(l=>({type:l.type,side:l.side,strike:l.type==='ACAO'?null:Number(l.strike),price:Number(l.price),qty:Number(l.qty),held:false}));
+ if(!(spot>0)||legs.some(l=>l.type!=='ACAO'&&!(l.strike>0))){$('manual-output').innerHTML='<p class="danger">Informe o preço do ativo e strikes positivos nas opções.</p>';return;}
+ try{const m=analyze(legs,{perOrder:fee,feePct:0});$('manual-output').innerHTML=`<section class="detail"><h3>Resultado da estrutura manual</h3><p class="warn">Preços inseridos por você. Não há cotação validada, spread, conferência de estilo/vencimento ou garantia da corretora.</p>${metricsDetails(m)}${chartSvg(legs,spot,{perOrder:fee})}${scenariosTable(legs,spot,{perOrder:fee})}</section>`;}catch(e){$('manual-output').innerHTML=`<p class="danger">${esc(e.message)}</p>`;}
+}
+document.body.addEventListener('click',e=>{
+ const el=e.target.closest('[data-act]');if(!el)return;
+ const action=el.dataset.act;
+ if(action==='select-ticker'){state.selectedTicker=el.dataset.ticker;renderRadar();}
+ if(action==='open-ticker-strats'){$('asset').value=el.dataset.ticker;state.selected=null;selectTab('strats');window.scrollTo(0,0);}
+ if(action==='details'){state.selected=el.dataset.id;renderStrategies();$('result-detail')?.scrollIntoView({behavior:'smooth',block:'start'});}
+ if(action==='close-detail'){state.selected=null;$('details').innerHTML='';}
+ if(action==='remove-leg'){state.manual.splice(Number(el.dataset.index),1);renderManual();}
+});
+document.body.addEventListener('change',e=>{
+ const el=e.target;
+ if(el.dataset.act==='compare'){
+  if(el.checked){if(state.compare.size>=3){el.checked=false;alert('É possível comparar no máximo 3 estruturas.');return;}state.compare.add(el.dataset.id);}
+  else state.compare.delete(el.dataset.id);renderStrategies();
+ }
+ if(el.dataset.act==='price-override'){
+  const idx=Number(el.dataset.index),id=el.dataset.id;
+  const x=Number(el.value);if(!(x>=0)||!Number.isFinite(x)){alert('Preço inválido');return;}
+  const map=state.overrides.get(id)||{};map[idx]=x;state.overrides.set(id,map);
+  renderStrategies();
+ }
+ if(el.dataset.manual!==undefined){const l=state.manual[Number(el.dataset.index)];if(l){l[el.dataset.manual]=el.value;if(el.dataset.manual==='type')renderManual();}}
+});
+for(const id of ['goal','asset','capital','risk','stock-qty','avg','lotsize','fee-order','fee-pct'])$(id).addEventListener('change',()=>{state.selected=null;state.compare.clear();renderStrategies();});
+$('refresh').addEventListener('click',loadRadar);
+$('add-leg').addEventListener('click',()=>{if(state.manual.length>=6)return alert('Limite de 6 pernas');state.manual.push({type:'CALL',side:'COMPRA',strike:'',price:'',qty:100});renderManual();});
+$('manual-run').addEventListener('click',runManual);
+if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('/sw.js').catch(()=>{});
+renderManual();renderRadar();if(location.protocol==='file:'){selectTab('manual');$('status').textContent='Arquivo offline: a busca automática requer hospedagem com Node.js e acesso à internet. O montador manual funciona aqui.';}else loadRadar();
+</script></body></html>
