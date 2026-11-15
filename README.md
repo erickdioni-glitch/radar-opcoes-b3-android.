@@ -1,17 +1,14 @@
-# Radar de Opções B3 — Android (versão online)
+# Radar de Opções B3 PRO — Android 3.0
 
-APK Android que abre em tela cheia o Radar de Opções B3 hospedado em
-https://radar-opcoes-b3.lovable.app/ .
+## Conteúdo
+- Aplicativo usa diretamente a interface PRO embutida: Radar, Estruturas e Montador manual.
+- Ao abrir, consulta fontes públicas (Opcoes.net.br para cadeia EOD, Yahoo Finance para preço do ativo) por HTTPS nativo, passando dados ao motor de estratégias do PRO.
+- Atualiza ao entrar e a cada 10 minutos enquanto a tela está visível. Dados podem estar atrasados, incompletos ou indisponíveis; fontes gratuitas podem limitar acesso.
+- Não inventa cotações: sem dados sincronizados, não gera operações automáticas; o simulador manual continua disponível.
+- Não negocia, não recomenda uma ordem e não garante retorno. Confirmar na corretora bid/ask, lote, vencimento, liquidez, garantia, custos e exercício.
 
-## Varredura automática
-- Ao abrir, o app carrega o Radar web hospedado e dispara a análise de mercado do seu backend TanStack Start.
-- Enquanto a tela inicial está aberta, o APK recarrega a cada 10 minutos; ao voltar depois de mais de 10 minutos, também atualiza.
-- As cotações e estratégias dependem da disponibilidade do site publicado e das fontes de dados que ele consulta.
-- Sem conexão ao servidor, cai para a interface manual/offline incluída no APK. Nesse modo, NÃO há cotações automáticas e NÃO são inventados preços.
-- O aplicativo não envia ordens nem garante lucro; verifique fonte, referência temporal, BID/ASK, liquidez, exercício, custos e garantias na corretora.
+## Instalação
+Faça download do APK puro na release v3.0.0. Esta versão tem applicationId próprio (`br.com.radaropcoes.b3pro`) e não substitui as versões antigas.
 
-## Instalar
-No GitHub, abra Actions > **Gerar APK Android**, baixe o artifact **Radar-Opcoes-B3-APK** e extraia o **app-debug.apk** do ZIP. Por ser assinatura de depuração automática, se uma versão anterior já estiver instalada e ocorrer erro de assinatura, desinstale a anterior antes de instalar a nova (isso apaga dados salvos nela).
-
-## Tecnologia
-Android Java + WebView com HTTPS + fallback via WebViewAssetLoader. Android 7+.
+## Construção
+GitHub Actions: Gerar APK Android, artefato Radar-Opcoes-B3-APK. Android >= 7.0. Código de fontes: app/src/main/java/br/com/radaropcoes/b3/B3RadarData.java.
