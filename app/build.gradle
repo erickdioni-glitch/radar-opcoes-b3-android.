@@ -7,11 +7,11 @@ android {
     compileSdk 35
 
     defaultConfig {
-        applicationId 'br.com.radaropcoes.b3pro'
+        applicationId 'br.com.radaropcoes.b3proscan'
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName '3.0.0-pro'
+        versionCode 5
+        versionName '3.1.0-pro-scan'
     }
 
     compileOptions {
