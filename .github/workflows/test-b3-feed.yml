@@ -45,6 +45,18 @@ jobs:
                   print('CHAIN len',len(obj2.get('cotacoesOpcoes') or []))
                   print('CHAIN row0',str((obj2.get('cotacoesOpcoes') or [])[0:2])[:2800])
                   print('CHAIN columns',str(obj2.get('columns',[]))[:1500])
+                  cols={c['name']:c['index'] for c in obj2.get('columns',[])}
+                  sample=[q for q in (obj2.get('cotacoesOpcoes') or []) if len(q)>7 and float(q[cols.get('ultimo',5)] or 0)>0]
+                  print('NONZERO last',len(sample),'sample',str(sample[:1])[:600])
+                  selected=[a['value'] for a in obj['data']['vencimentos'] if a['dataAttributes'].get('m')=='1' and 2<=int(a['dataAttributes'].get('du','0'))<=130][:3]
+                  print('SELECTED monthly',selected)
+                  print('CODES by month', {month:sum(1 for q in sample if q[0].split('_')[0][4:5]==month) for month in ('J','K','L')})
+                  print('DATE examples',str(sorted({str(q[cols['data/hora']])[:10] for q in sample})[-5:]))
+                  strikes=[]
+                  for q in sample:
+                    strike,dist=float(q[cols['strike']]),float(q[cols['distancia%dostrike']])
+                    if dist > -0.98: strikes.append(strike/(1+dist))
+                  print('IMPLIED SPOT range', (min(strikes),max(strikes)) if strikes else 'none')
               else:
                 result=(obj.get('chart',{}).get('result') or [{}])[0]
                 print('meta',str(result.get('meta',{}))[:500])
