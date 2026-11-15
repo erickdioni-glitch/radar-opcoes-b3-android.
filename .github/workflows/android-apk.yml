@@ -57,7 +57,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create v2.1.0 app/build/outputs/apk/debug/app-debug.apk#Radar-Opcoes-B3-v2.1-INSTALAR.apk --title "Radar de Opções B3 — Android v2.1" --notes "Versão com identificador próprio para evitar conflito de assinatura de APKs de teste. A interface online consulta o backend hospedado. Se o site estiver indisponível, o modo manual local funciona sem cotações automáticas." --latest
+          gh release create v3.0.0 app/build/outputs/apk/debug/app-debug.apk#Radar-B3-PRO-v3-INSTALAR.apk --title "Radar B3 PRO — Estratégias Estruturadas v3.0" --notes "Versão PRO com abas Radar, Estruturas e Montador manual. Consulta pública via opcoes.net.br e Yahoo Finance no dispositivo, quando disponíveis; dados indicativos e não executáveis. Sem dados de mercado, simulador manual disponível." --latest
 
       - name: Publicar APK para baixar
         uses: actions/upload-artifact@v4
