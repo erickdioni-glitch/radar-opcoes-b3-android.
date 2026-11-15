@@ -4,11 +4,11 @@
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_radar"
-        android:label="Radar Opções B3"
+        android:label="Radar B3 Online"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="false">
         <activity
-            android:name=".MainActivity"
+            android:name="br.com.radaropcoes.b3.MainActivity"
             android:exported="true"
             android:screenOrientation="unspecified">
             <intent-filter>
