@@ -5,32 +5,46 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
-
+import android.webkit.WebResourceError;
 import androidx.webkit.WebViewAssetLoader;
 
-import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-
 public class MainActivity extends Activity {
-    // Preencher com o endpoint HTTPS de um servidor que retorne o JSON esperado
-    // pelo arquivo assets/index.html. Deixe vazio até o backend estar ativo.
-    private static final String RADAR_API_URL = "";
-    private static final String LOCAL_HOST = "appassets.androidplatform.net";
+    // Usa o Radar web original, que executa as consultas B3 no servidor.
+    private static final String ONLINE_URL = "https://radar-opcoes-b3.lovable.app/";
+    private static final String ONLINE_HOST = "radar-opcoes-b3.lovable.app";
+    private static final String OFFLINE_HOST = "appassets.androidplatform.net";
+    private static final String OFFLINE_URL = "https://" + OFFLINE_HOST + "/assets/index.html";
+    private static final long REFRESH_INTERVAL_MS = 10 * 60 * 1000L;
 
     private WebView webView;
+    private boolean offline = false;
+    private long pausedAt = 0L;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+    // Atualiza apenas o painel principal em primeiro plano. Não interrompe o montador.
+    private final Runnable periodicRefresh = new Runnable() {
+        @Override public void run() {
+            if (webView != null) {
+                String page = webView.getUrl();
+                if (!offline && page != null) {
+                    Uri uri = Uri.parse(page);
+                    if (ONLINE_HOST.equals(uri.getHost()) &&
+                        (uri.getPath() == null || "/".equals(uri.getPath()))) {
+                        webView.reload();
+                    }
+                }
+                mainHandler.postDelayed(this, REFRESH_INTERVAL_MS);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle state) {
@@ -40,14 +54,14 @@ public class MainActivity extends Activity {
 
         webView = new WebView(this);
         setContentView(webView);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAllowFileAccess(false);
+        settings.setAllowContentAccess(false);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
+        settings.setSafeBrowsingEnabled(true);
 
-        WebSettings s = webView.getSettings();
-        s.setJavaScriptEnabled(true);
-        s.setDomStorageEnabled(true);
-        s.setAllowFileAccess(false);
-        s.setAllowContentAccess(false);
-        s.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
-        s.setSafeBrowsingEnabled(true);
         webView.setWebChromeClient(new WebChromeClient());
 
         WebViewAssetLoader assets = new WebViewAssetLoader.Builder()
@@ -57,77 +71,64 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                Uri uri = request.getUrl();
-                if (LOCAL_HOST.equals(uri.getHost()) && "/api/radar".equals(uri.getPath())) {
-                    return loadRadarApi();
-                }
-                return assets.shouldInterceptRequest(uri);
+                return assets.shouldInterceptRequest(request.getUrl());
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 Uri uri = request.getUrl();
-                if ("https".equals(uri.getScheme()) && LOCAL_HOST.equals(uri.getHost())) return false;
-                if ("http".equals(uri.getScheme()) || "https".equals(uri.getScheme())) {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, uri));
-                    } catch (Exception ignored) {
-                        // Sem navegador externo disponível.
-                    }
+                String scheme = uri.getScheme();
+                if ("https".equals(scheme) &&
+                    (ONLINE_HOST.equals(uri.getHost()) || OFFLINE_HOST.equals(uri.getHost()))) {
+                    return false;
+                }
+                if ("https".equals(scheme) || "http".equals(scheme)) {
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, uri)); }
+                    catch (Exception ignored) { /* Sem navegador */ }
                 }
                 return true;
             }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                // Se o servidor web estiver inacessivel, manter o montador manual local.
+                if (request.isForMainFrame() && ONLINE_HOST.equals(request.getUrl().getHost()) && !offline) {
+                    offline = true;
+                    view.post(() -> {
+                        if (webView != null) webView.loadUrl(OFFLINE_URL);
+                    });
+                }
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (url != null && ONLINE_HOST.equals(Uri.parse(url).getHost())) offline = false;
+            }
         });
 
-        webView.loadUrl("https://" + LOCAL_HOST + "/assets/index.html");
+        webView.loadUrl(ONLINE_URL);
     }
 
-    private static WebResourceResponse loadRadarApi() {
-        if (RADAR_API_URL.isEmpty()) {
-            return errorJson(503, "Atualização online ainda não configurada: é necessário hospedar o backend /api/radar. O montador manual permanece disponível.");
-        }
-        HttpURLConnection conn = null;
-        try {
-            URL url = new URL(RADAR_API_URL);
-            if (!"https".equalsIgnoreCase(url.getProtocol())) {
-                return errorJson(400, "A fonte de dados precisa usar HTTPS.");
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) {
+            if (pausedAt > 0 && System.currentTimeMillis() - pausedAt >= REFRESH_INTERVAL_MS) {
+                if (offline) { offline = false; webView.loadUrl(ONLINE_URL); }
+                else webView.reload();
             }
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(120000);
-            conn.setRequestProperty("Accept", "application/json");
-            conn.setInstanceFollowRedirects(false);
-            int status = conn.getResponseCode();
-            InputStream data = status >= 200 && status < 300 ? conn.getInputStream() : conn.getErrorStream();
-            if (data == null) return errorJson(502, "Servidor de cotações não retornou dados.");
-            // Encaminha o JSON do backend para a aplicação, sem inventar preços.
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Access-Control-Allow-Origin", "*");
-            headers.put("Cache-Control", "no-store");
-            String reason = (status >= 200 && status < 300) ? "OK" : "Bad Gateway";
-            return new WebResourceResponse("application/json", "UTF-8", status, reason, headers, data);
-        } catch (Exception e) {
-            if (conn != null) conn.disconnect();
-            return errorJson(502, "Falha ao buscar cotações: " + e.getClass().getSimpleName());
+            webView.onResume();
+            mainHandler.removeCallbacks(periodicRefresh);
+            mainHandler.postDelayed(periodicRefresh, REFRESH_INTERVAL_MS);
         }
     }
 
-    private static WebResourceResponse errorJson(int status, String message) {
-        try {
-            String body = new JSONObject().put("error", message).toString();
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Access-Control-Allow-Origin", "*");
-            headers.put("Cache-Control", "no-store");
-            return new WebResourceResponse(
-                "application/json", "UTF-8", status,
-                "Service Unavailable", headers,
-                new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8))
-            );
-        } catch (Exception e) {
-            return new WebResourceResponse("application/json", "UTF-8",
-                new ByteArrayInputStream("{\"error\":\"Falha na API\"}".getBytes(StandardCharsets.UTF_8)));
-        }
+    @Override
+    protected void onPause() {
+        pausedAt = System.currentTimeMillis();
+        mainHandler.removeCallbacks(periodicRefresh);
+        if (webView != null) webView.onPause();
+        super.onPause();
     }
 
     @Override
@@ -138,6 +139,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        mainHandler.removeCallbacks(periodicRefresh);
         if (webView != null) {
             webView.destroy();
             webView = null;
