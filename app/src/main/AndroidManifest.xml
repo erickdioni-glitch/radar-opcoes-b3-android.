@@ -4,7 +4,7 @@
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_radar"
-        android:label="Radar B3 PRO"
+        android:label="Radar PRO Scanner"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:usesCleartextTraffic="false">
         <activity
