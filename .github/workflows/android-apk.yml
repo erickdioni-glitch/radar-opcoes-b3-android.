@@ -57,7 +57,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create v3.2.0 app/build/outputs/apk/debug/app-debug.apk --title "Radar B3 PRO v3.2 — Antibloqueio e cache" --notes "Backoff e cache local identificados para HTTP 429. Sem inventar cotações. Modo histórico opt-in e aviso de dados defasados; não gera ordens." --latest
+          gh release create v3.2.1 app/build/outputs/apk/debug/app-debug.apk --title "Radar B3 PRO v3.2.1 — Antibloqueio e cache" --notes "Backoff e cache local identificados para HTTP 429. Sem inventar cotações. Modo histórico opt-in e aviso de dados defasados; não gera ordens." --latest
 
       - name: Publicar APK para baixar
         uses: actions/upload-artifact@v4
