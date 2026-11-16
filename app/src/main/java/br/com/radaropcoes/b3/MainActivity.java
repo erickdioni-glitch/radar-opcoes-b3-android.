@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                 Uri url=request.getUrl();
                 if (APP_HOST.equals(url.getHost()) && "/api/radar".equals(url.getPath())) {
-                    return B3RadarData.handleRequest();
+                    return B3RadarData.handleRequest(MainActivity.this);
                 }
                 return assets.shouldInterceptRequest(url);
             }

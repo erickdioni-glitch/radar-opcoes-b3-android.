@@ -1,5 +1,7 @@
 package br.com.radaropcoes.b3;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.webkit.WebResourceResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,9 +35,9 @@ public final class B3RadarData {
     private static final Pattern OPTION_CODE = Pattern.compile("^([A-Z0-9]{4})([A-X])\\d+(W\\d+)?_(20\\d\\d)$");
     private static long nextRequest = 0L;
 
-    static WebResourceResponse handleRequest() {
+    static WebResourceResponse handleRequest(Context context) {
         try {
-            JSONObject response = build();
+            JSONObject response = build(context);
             return jsonResponse(200, response.toString());
         } catch (Exception error) {
             return jsonResponse(503, "{\"error\":" + JSONObject.quote("Não foi possível consultar cotações públicas: " + message(error)) + "}");
@@ -53,25 +55,87 @@ public final class B3RadarData {
         );
     }
 
-    private static JSONObject build() throws Exception {
+    // Reduz consultas repetidas. Cotações guardadas são identificadas como cache,
+    // com a data original, e nunca apresentadas como nova consulta de mercado.
+    private static final long CACHE_REFRESH_MS = 35L * 60 * 1000;
+    private static final long CACHE_RETAIN_MS = 48L * 60 * 60 * 1000;
+    private static final long HTTP429_BACKOFF_MS = 45L * 60 * 1000;
+
+    private static JSONObject cachedItem(String serialized, long fetchedAt, String reason) {
+        if (serialized == null || serialized.isEmpty()) return null;
+        try {
+            JSONObject copy = new JSONObject(serialized);
+            copy.put("cached", true);
+            copy.put("retrievedAt", isoDateTime(fetchedAt));
+            JSONArray warnings = copy.optJSONArray("warnings");
+            if (warnings == null) warnings = new JSONArray();
+            warnings.put("Dados guardados localmente desde " + isoDateTime(fetchedAt) +
+                ". Podem estar defasados. NÃO representam ofertas atuais.");
+            if (reason != null && !reason.isEmpty()) warnings.put(reason);
+            copy.put("warnings", warnings);
+            return copy;
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    private static JSONObject build(Context context) throws Exception {
+        SharedPreferences prefs = context.getSharedPreferences("radar_pro_quotes_v32", Context.MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        long cooldownUntil = prefs.getLong("cooldown_until", 0L);
         JSONArray good = new JSONArray();
         JSONArray failed = new JSONArray();
+
         for (String ticker: TICKERS) {
+            String stored = prefs.getString("data_" + ticker, null);
+            long fetchedAt = prefs.getLong("at_" + ticker, 0L);
+            boolean hasUsableCache = stored != null && fetchedAt > 0L &&
+                now >= fetchedAt && now - fetchedAt < CACHE_RETAIN_MS;
+            if (hasUsableCache && now - fetchedAt < CACHE_REFRESH_MS) {
+                JSONObject snapshot = cachedItem(stored, fetchedAt, "Consulta automática reduzida para respeitar limites da fonte.");
+                if (snapshot != null) { good.put(snapshot); continue; }
+            }
+            if (now < cooldownUntil) {
+                failed.put(new JSONObject().put("ticker", ticker)
+                    .put("error", "HTTP 429: aguardando liberação da fonte; sem consulta nova"));
+                if (hasUsableCache) {
+                    JSONObject snapshot = cachedItem(stored, fetchedAt, "Fonte temporariamente bloqueada (HTTP 429).");
+                    if (snapshot != null) good.put(snapshot);
+                }
+                continue;
+            }
+
             try {
                 JSONObject item = getTicker(ticker);
+                item.put("cached", false);
+                item.put("retrievedAt", isoDateTime());
                 good.put(item);
+                prefs.edit()
+                    .putString("data_" + ticker, item.toString())
+                    .putLong("at_" + ticker, System.currentTimeMillis()).apply();
             } catch (Exception e) {
-                failed.put(new JSONObject().put("ticker", ticker).put("error", message(e)));
+                String error = message(e);
+                failed.put(new JSONObject().put("ticker", ticker).put("error", error));
+                if (error.contains("HTTP 429")) {
+                    cooldownUntil = System.currentTimeMillis() + HTTP429_BACKOFF_MS;
+                    prefs.edit().putLong("cooldown_until", cooldownUntil).apply();
+                }
+                if (hasUsableCache) {
+                    JSONObject snapshot = cachedItem(stored, fetchedAt, "Falha ao atualizar " + ticker + ": " + error);
+                    if (snapshot != null) good.put(snapshot);
+                }
             }
         }
+
         if (good.length() == 0) {
-            throw new Exception("Nenhum ativo pôde ser consultado; falhas: " + failed.toString().substring(0, Math.min(330, failed.toString().length())));
+            throw new Exception("Nenhum ativo pôde ser consultado. A fonte pública retornou HTTP 429 ou indisponibilidade. " +
+                "Aguardar a liberação; dados não serão inventados.");
         }
         return new JSONObject()
             .put("generatedAt", isoDateTime())
             .put("data", good)
             .put("failed", failed)
-            .put("source", "opcoes.net.br / Yahoo Finance")
+            .put("source", "opcoes.net.br / Yahoo Finance; cache local identificado quando utilizado")
             .put("mode", "cotacoes-publicas-indicativas");
     }
 
@@ -261,7 +325,7 @@ public final class B3RadarData {
         if (!url.startsWith(BASE)) return;
         long now = System.currentTimeMillis();
         long delay = Math.max(0L, nextRequest - now);
-        nextRequest = Math.max(now, nextRequest) + 950L;
+        nextRequest = Math.max(now, nextRequest) + 2500L;
         if (delay > 0) Thread.sleep(delay);
     }
 
@@ -280,6 +344,7 @@ public final class B3RadarData {
                 conn.setRequestProperty("Accept","application/json, text/plain, */*");
                 conn.setInstanceFollowRedirects(true);
                 int code = conn.getResponseCode();
+                if (code == 429) throw new Exception("HTTP 429: limite de consultas da fonte");
                 if (code != 200) throw new Exception("HTTP " + code);
                 try (InputStream input=conn.getInputStream(); ByteArrayOutputStream output=new ByteArrayOutputStream()) {
                     byte[] buffer = new byte[8192];
@@ -292,6 +357,7 @@ public final class B3RadarData {
                 }
             } catch (Exception e) {
                 last=e;
+                if (message(e).contains("HTTP 429")) throw e; // Não repetir imediatamente consultas bloqueadas.
             } finally {
                 if (conn!=null) conn.disconnect();
             }
@@ -321,6 +387,12 @@ public final class B3RadarData {
         SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.US);
         fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
         return fmt.format(new Date());
+    }
+
+    private static String isoDateTime(long when) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        fmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return fmt.format(new Date(when));
     }
 
     private static String message(Exception e) {
